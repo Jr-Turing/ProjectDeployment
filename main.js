@@ -29,6 +29,9 @@ let timer,
   wrongQuestion = 0;
 
 
+
+
+
 replayQuiz.addEventListener("click",()=>{
   resultCard.style.width = "0"
   resultCard.style.transform = "scale(0)"
@@ -52,6 +55,9 @@ exitQuiz.addEventListener("click",()=>{
     startBtn.style.transform = "scale(1)"
     startBtn.style.width = "100%"
 })
+
+
+
 
 
 startBtn.addEventListener("click",()=>{
@@ -80,21 +86,23 @@ startQuizBtn.addEventListener("click",()=>{
   startQuiz()
 })
 
+
+
+
+
+
 const questions = [
   {
-    question: "Q1.Python is known as: ?",
-    options: ["A compiled language", "An interpreted language", "A machine language", "An assembly language],
+    question: "Q1.Which function in Python is used to display data as output?",
+    options: ["display()", "print()", "show()", "output()"],
     answer: "1"
   },
   {
-    question: "How is a code block indicated in Python?",
-    options: ["Brackets", "Indentation", "Key", "None of the above"],
     question: "Q2. How is a code block indicated in Python?",
     options: ["Brackets", "Key", "Indentation", "None of the above"],
     answer: "2"
   },
   {
-    question: "The format function, when applied on a string returns_________?",
     question: "Q3. The format function, when applied on a string returns_____?",
     options: ["int", "str", "bool", "Error"],
     answer: "1"
@@ -105,8 +113,6 @@ const questions = [
     answer: "2"
   },
   {
-    question: "Which of the following types of loops are not supported in Python?",
-    options: ["for", "while", "do-while", "None of th above"],
     question: "Q5. Given a string example='hello' what is the output of example.count('l')?",
     options: ["2", "1", "None", "0"],
     answer: "0"
@@ -117,10 +123,8 @@ const questions = [
     answer: "3"
   },
   {
-    question: "Give a string example='hello' what is the output of example.count('l')?",
-    options: ["2", "1", "None", "0"],
     question: "Q7. Which of the following is a valid Python comment ?",
-    options: ["<!_ _ _ _ >", "/* */", "#", "//"],
+    options: ["!", "/* */", "#", "//"],
     answer: "2"
   },
   {
@@ -135,11 +139,12 @@ const questions = [
   },
 
   {
-    question: "Q10. What is the output of the following code snippet: print(type("Hello,World!")) ",
-    options: ["<class'str'>", "<class 'int'>", "<class'tuple'>", "<class 'list'>"],
+    question: "Q10. What is the output of the following code snippet: print(type('Hello,World!'))",
+    options: ["class 'str'", "class 'int'", "class 'tuple'", "class 'list'"],
     answer: "0"
   },
 ];
+
 
 
 function startQuiz() {
@@ -213,7 +218,7 @@ function nextQuestion() {
     // Check if the user has answered all questions
     
     answerContainer.style.pointerEvents="initial"
-    time.innerHTML="15"
+    time.innerHTML="30"
     updateProgress()
     timer = setInterval(updateTimer, 1000);
     answerContainer.innerHTML=""
