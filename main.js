@@ -29,9 +29,6 @@ let timer,
   wrongQuestion = 0;
 
 
-
-
-
 replayQuiz.addEventListener("click",()=>{
   resultCard.style.width = "0"
   resultCard.style.transform = "scale(0)"
@@ -55,9 +52,6 @@ exitQuiz.addEventListener("click",()=>{
     startBtn.style.transform = "scale(1)"
     startBtn.style.width = "100%"
 })
-
-
-
 
 
 startBtn.addEventListener("click",()=>{
@@ -86,39 +80,66 @@ startQuizBtn.addEventListener("click",()=>{
   startQuiz()
 })
 
-
-
-
-
-
 const questions = [
   {
-    question: "What is the maximum length of a Python?",
-    options: ["32", "16", "128", "No fixed length is specified"],
-    answer: "3"
+    question: "Q1.Python is known as: ?",
+    options: ["A compiled language", "An interpreted language", "A machine language", "An assembly language],
+    answer: "1"
   },
   {
     question: "How is a code block indicated in Python?",
     options: ["Brackets", "Indentation", "Key", "None of the above"],
-    answer: "1"
+    question: "Q2. How is a code block indicated in Python?",
+    options: ["Brackets", "Key", "Indentation", "None of the above"],
+    answer: "2"
   },
   {
-    question: "The format function, when applied on a string returns_____?",
+    question: "The format function, when applied on a string returns_________?",
+    question: "Q3. The format function, when applied on a string returns_____?",
     options: ["int", "str", "bool", "Error"],
     answer: "1"
   },
   {
-    question: "Which of the following types of loops are not supported in Python?",
+    question: "Q4. Which of the following types of loops are not supported in Python?",
     options: ["for", "while", "do-while", "None of the above"],
     answer: "2"
   },
   {
-    question: "Given a string example='hello' what is the output of example.count('l')?",
+    question: "Which of the following types of loops are not supported in Python?",
+    options: ["for", "while", "do-while", "None of th above"],
+    question: "Q5. Given a string example='hello' what is the output of example.count('l')?",
     options: ["2", "1", "None", "0"],
     answer: "0"
   },
-];
+  {
+    question: "Q6. What is the maximum length of a Python ?",
+    options: ["32", "16", "128", "No fixed length is specified"],
+    answer: "3"
+  },
+  {
+    question: "Give a string example='hello' what is the output of example.count('l')?",
+    options: ["2", "1", "None", "0"],
+    question: "Q7. Which of the following is a valid Python comment ?",
+    options: ["<!_ _ _ _ >", "/* */", "#", "//"],
+    answer: "2"
+  },
+  {
+    question: "Q8. Which of these data types does Python not natively support ?",
+    options: ["Lists", "Tuples", "Dictionaries", "Arrays"],
+    answer: "3"
+  },
+  {
+    question: "Q9. Which of the following is not a Python built-in data type ?",
+    options: ["dict", "array", "set", "frozenset"],
+    answer: "1"
+  },
 
+  {
+    question: "Q10. What is the output of the following code snippet: print(type("Hello,World!")) ",
+    options: ["<class'str'>", "<class 'int'>", "<class'tuple'>", "<class 'list'>"],
+    answer: "0"
+  },
+];
 
 
 function startQuiz() {
