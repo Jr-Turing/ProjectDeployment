@@ -29,6 +29,9 @@ let timer,
   wrongQuestion = 0;
 
 
+
+
+
 replayQuiz.addEventListener("click",()=>{
   resultCard.style.width = "0"
   resultCard.style.transform = "scale(0)"
@@ -52,6 +55,8 @@ exitQuiz.addEventListener("click",()=>{
     startBtn.style.transform = "scale(1)"
     startBtn.style.width = "100%"
 })
+
+
 
 
 
@@ -80,6 +85,9 @@ startQuizBtn.addEventListener("click",()=>{
   instructionCard.style.width = "0%"
   startQuiz()
 })
+
+
+
 
 
 
