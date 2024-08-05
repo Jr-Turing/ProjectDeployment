@@ -1,98 +1,250 @@
-const quizData = [
-    {
-        question: "Q1. Which language runs in a web browser?",
-        a: "Java",
-        b: "C",
-        c: "Python",
-        d: "JavaScript",
-        correct: "d",
-    },
-    {
-        question: "Q2. What does CSS stand for?",
-        a: "Central Style Sheets",
-        b: "Cascading Style Sheets",
-        c: "Cascading Simple Sheets",
-        d: "Cars SUVs Sailboats",
-        correct: "b",
-    },
-    {
-        question: "Q3. What does HTML stand for?",
-        a: "Hypertext Markup Language",
-        b: "Hypertext Markdown Language",
-        c: "Hyperloop Machine Language",
-        d: "Helicopters Terminals Motorboats Lamborginis",
-        correct: "a",
-    },
-    {
-        question: "Q4. What year was JavaScript launched?",
-        a: "1996",
-        b: "1995",
-        c: "1994",
-        d: "none of the above",
-        correct: "b",
-    },
+let startBtn = document.querySelector(".start-btn"),
+instructionCard = document.querySelector(".instruction"),
+instructionExit = document.querySelectorAll(".instruction button")[0],
+startQuizBtn = document.querySelectorAll(".instruction button")[1],
+wrapper = document.querySelector(".wrapper"),
+nxtBtn = document.querySelector(".btn button"),
+resultCard = document.querySelector(".result-card"),
+time = document.querySelectorAll(".Timer p")[1],
+progressBar = document.querySelector(".inner"),
+questionEl = document.querySelector(".question-container"),
+answerContainer = document.querySelector(".option-container"),
+currentQuestionNum = document.querySelector(".current-question"),
+totalQuestion = document.querySelector(".total-question"),
+totalScore = document.querySelector(".total-score .value"),
+yourScore = document.querySelector(".user-score .value"),
+unattempted = document.querySelector(".unattempted .value"),
+attempted = document.querySelector(".attempted .value"),
+wrong = document.querySelector(".wrong .value"),
+replayQuiz = document.querySelectorAll(".score-btn button")[0]
+exitQuiz = document.querySelectorAll(".score-btn button")[1];
+let currentQuestion = 0;
+let userAnswers = [];
+let timer,
+  progressInterval,
+  width = 1,
+  score = 0,
+  attemptQuestion = 0,
+  unattemptedQuestion = 0,
+  wrongQuestion = 0;
+
+
+replayQuiz.addEventListener("click",()=>{
+  resultCard.style.width = "0"
+  resultCard.style.transform = "scale(0)"
+  wrapper.style.transform = "scale(1)"
+  wrapper.style.width = "100%"
+  currentQuestion = 0
+  score = 0,
+    attemptQuestion = 0,
+    unattemptedQuestion = 0,
+    wrongQuestion = 0;
+  startQuiz();
+})
+exitQuiz.addEventListener("click",()=>{
+  resultCard.style.width = "0"
+  resultCard.style.transform = "scale(0)"
+  currentQuestion = 0
+  score = 0,
+    attemptQuestion = 0,
+    unattemptedQuestion = 0,
+    wrongQuestion = 0;
+    startBtn.style.transform = "scale(1)"
+    startBtn.style.width = "100%"
+})
+
+
+
+startBtn.addEventListener("click",()=>{
+  instructionCard.style.transform="scale(1)"
+  instructionCard.style.width="100%"
+  instructionCard.style.opacity="1"
+  startBtn.style.transform="scale(0)"
+  startBtn.style.width="0"
+})
+
+
+instructionExit.addEventListener("click",()=>{
+  instructionCard.style.transform = "scale(0)"
+  instructionCard.style.width = "0%"
+  startBtn.style.transform = "scale(1)"
+  startBtn.style.width = "100%"
+})
+
+
+startQuizBtn.addEventListener("click",()=>{
+  
+  wrapper.style.transform="scale(1)"
+  wrapper.style.width="100%"
+  instructionCard.style.transform = "scale(0)"
+  instructionCard.style.width = "0%"
+  startQuiz()
+})
+
+
+
+const questions = [  
+  { question: "What is the maximum length of a Python?",
+    options: ["32", "16", "128", "No fixed lenth is specified"],
+    answer: "4"
+  },
+  {
+    question: "How is a code block indicated in Python?",
+    options: ["Brackets", "Indentation", "Key", "None of the above"],
+    answer: "2"
+  },
+  {
+    question: "The format function, when applied on a string returns_________?",
+    options: ["int", "str", "bool", "Error"],
+    answer: "2"
+  },
+  {
+    question: "Which of the following types of loops are not supported in Python?",
+    options: ["for", "while", "do-while", "None of th above"],
+    answer: "3"
+  },
+  {
+    question: "Give a string example='hello' what is the output of example.count('l')?",
+    options: ["2", "1", "None", "0"],
+    answer: "1"
+  },
+ 
 ];
 
-const quiz = document.getElementById('quiz')
-const answerEls = document.querySelectorAll('.answer')
-const questionEl = document.getElementById('question')
-const a_text = document.getElementById('a_text')
-const b_text = document.getElementById('b_text')
-const c_text = document.getElementById('c_text')
-const d_text = document.getElementById('d_text')
-const submitBtn = document.getElementById('submit')
 
-let currentQuiz = 0
-let score = 0
+function startQuiz() {
+    // Display the first question and its options
+    displayQuestion(currentQuestion);
 
-loadQuiz()
+    // Start the timer
+    timer = setInterval(updateTimer, 1000);
 
-function loadQuiz() {
-    deselectAnswers()
-
-    const currentQuizData = quizData[currentQuiz]
-
-    questionEl.innerText = currentQuizData.question
-    a_text.innerText = currentQuizData.a
-    b_text.innerText = currentQuizData.b
-    c_text.innerText = currentQuizData.c
-    d_text.innerText = currentQuizData.d
+    // Update the progress bar
+    updateProgress();
 }
 
-function deselectAnswers() {
-    answerEls.forEach(answerEl => answerEl.checked = false)
-}
 
-function getSelected() {
-    let answer
+function displayQuestion(questionIndex) {
+  updateProgress()
+    // Get the question and options from the questions array
+    let question = questions[questionIndex].question;
+    let options = questions[questionIndex].options;
 
-    answerEls.forEach(answerEl => {
-        if(answerEl.checked) {
-            answer = answerEl.id
-        }
-    })
+    // Display the question and options in their respective containers
+    questionEl.innerHTML = question;
 
-    return answer
-}
-
-submitBtn.addEventListener('click', () => {
-    const answer = getSelected()
-    
-    if(answer) {
-        if(answer === quizData[currentQuiz].correct) {
-            score++
-        }
-
-        currentQuiz++
-
-        if(currentQuiz < quizData.length) {
-            loadQuiz()
-        } else {
-            quiz.innerHTML = `
-                <h2>You answered ${score}/${quizData.length} questions correctly</h2>
-
-                <button onclick="location.reload()">Reload</button>
-            `
-        }
+    for (let i = 0; i < options.length; i++) {
+        let option = `<option onclick = checkAnswer(${i})>${options[i]} </option>`
+        
+        answerContainer.insertAdjacentHTML("beforeend",option)
     }
-})
+}
+
+
+function checkAnswer(selectedIndex) {
+    // Get the selected answer from the user
+    attemptQuestion++;
+    answerContainer.style.pointerEvents="none"
+    clearInterval(timer);
+    let selectedAnswer = questions[currentQuestion].options[selectedIndex];
+
+    // Get the correct answer from the questions array
+    let correctAnswer = questions[currentQuestion].options[questions[currentQuestion].answer];
+
+    // Compare the selected answer to the correct answer
+    if (selectedAnswer === correctAnswer) {
+      score++;
+     setTimeout(()=>{
+       document.querySelectorAll("option")[selectedIndex].style.backgroundColor = "#37BB1169"
+       document.querySelectorAll("option")[selectedIndex].style.color = "#fff"
+       document.querySelectorAll("option")[selectedIndex].style.borderColor = "green"
+     },100)
+      
+
+        userAnswers[currentQuestion] = selectedIndex;
+
+        // Display the correct answer and highlight it in green
+        
+    } else {
+      wrongQuestion++;
+       setTimeout(()=>{
+       document.querySelectorAll("option")[selectedIndex].style.backgroundColor = "#B6141469"
+       document.querySelectorAll("option")[selectedIndex].style.color = "#fff"
+       document.querySelectorAll("option")[selectedIndex].style.borderColor = "red"
+      document.querySelectorAll("option")[questions[currentQuestion].answer].style.backgroundColor="#37BB1169"
+      document.querySelectorAll("option")[questions[currentQuestion].answer].style.color="#fff"
+      document.querySelectorAll("option")[questions[currentQuestion].answer].style.borderColor="green"
+     },100)
+    }
+}
+
+
+function nextQuestion() {
+    // Check if the user has answered all questions
+    
+    answerContainer.style.pointerEvents="initial"
+    time.innerHTML="15"
+    updateProgress()
+    timer = setInterval(updateTimer, 1000);
+    answerContainer.innerHTML=""
+    if (currentQuestion === questions.length - 1) {
+      resultCard.style.width="300px"
+      resultCard.style.transform="scale(1)"
+      totalScore.innerHTML = questions.length
+      yourScore.innerHTML = score
+      attempted.innerHTML = attemptQuestion
+      unattempted.innerHTML = unattemptedQuestion
+      wrong.innerHTML = wrongQuestion
+      wrapper.style.width="0"
+      wrapper.style.transform="scale(0)"
+        endQuiz();
+    } else {
+        // If there are more questions, update the currentQuestion variable and display the next question and its options
+        currentQuestion++;
+        currentQuestionNum.innerHTML=currentQuestion + 1
+        displayQuestion(currentQuestion);
+    }
+}
+
+function updateTimer() {
+    // Decrement the timer by 1 second
+    let remainingTime = parseInt(time.innerHTML) - 1;
+
+    // Update the timer display
+    time.innerHTML = remainingTime > 9 ? remainingTime : "0" + remainingTime;
+
+    // Update the progress bar
+    
+
+    // If the timer reaches 0, end the quiz
+    if (remainingTime === 0) {
+      unattemptedQuestion++;
+      document.querySelectorAll("option")[questions[currentQuestion].answer].style.backgroundColor = "#37BB1169"
+      document.querySelectorAll("option")[questions[currentQuestion].answer].style.color = "#fff"
+      document.querySelectorAll("option")[questions[currentQuestion].answer].style.borderColor = "green"
+      answerContainer.style.pointerEvents="none"
+        endQuiz();
+    }
+}
+
+function updateProgress() {
+ progressBar.style.width = (currentQuestion + 1)/questions.length * 100 + "%";
+ 
+ ;
+}
+
+function endQuiz() {
+    // Stop the timer
+    clearInterval(timer);
+    
+    // Hide the question and option containers
+    
+}
+
+nxtBtn.addEventListener("click",nextQuestion);
+
+
+
+totalQuestion.innerHTML = questions.length
+currentQuestionNum.innerHTML=currentQuestion + 1
+
